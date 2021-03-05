@@ -1,7 +1,7 @@
 
 import React from 'react'
 
-const Table = ({ data, deleteTool, edit, editItem }) => {
+const Table = ({ data, deleteTool, edit, editItem, testDate }) => {
 
     const list = data.map((item, index) => {
         return (
@@ -51,6 +51,9 @@ const Table = ({ data, deleteTool, edit, editItem }) => {
                             item.edit
                             ? <button 
                               className="btn btn-success"
+                              disabled={(item.date === '' && !testDate(item.date)) 
+                                && item.tool === '' 
+                                && (item.cost === '')}
                               onClick={() => edit(item, false)} 
                               ><i className="fas fa-check"></i></button>
                             

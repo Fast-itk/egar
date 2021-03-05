@@ -7,14 +7,27 @@ import { initialData } from './data'
 
 function App() {
   const [openModal, setOpenModal] = useState(false)
+  const [data, setData] = useState(initialData)
+  const [alert, setAlert] = useState({
+    mesage: '',
+    type: '',
+    show: false 
+  })
   const [dataFromInput, setDataFromInput] = useState({
     date: '',
     tool: '',
     cost: ''
   })
-  const [data, setData] = useState(initialData)
 
   const toggleModal = isOpen => setOpenModal(isOpen)
+
+  const hideAlert = () => {
+    setAlert({
+      message: '',
+      type: '',
+      show: false
+    })
+  }
 
   const changeHandler = (value, prop) => {
     let newData = {...dataFromInput}
@@ -33,12 +46,25 @@ function App() {
     
     if ((date !== '' && testDate(date)) && tool !== '' && (cost !== '' && +cost > 0)) {
       const copyData = [...data]
-      
+      setAlert({
+        message: 'Данные успешно добавлены!',
+        type: 'success',
+        show: true
+      })
       const addData = {date, tool, cost, edit: false}
 
       copyData.push(addData)
       setData(copyData)
       setDataFromInput({date: '', tool: '', cost: ''})
+
+      setTimeout(hideAlert, 2000)
+    } else {
+      setAlert({
+        message: 'Ошибка!',
+        type: 'error',
+        show: true
+      })
+      setTimeout(hideAlert, 2000)
     }
     
   }
@@ -53,6 +79,8 @@ function App() {
     editItem.edit = editMode
     if ((date !== '' && testDate(date))  && tool !== '' && (cost !== '' && +cost > 0)) {
       setData(copyData)
+    } else {
+      editItem.edit = true
     }
   }
 
@@ -79,6 +107,7 @@ function App() {
               changeHandler={changeHandler}  
               values={dataFromInput}
               add={addTool}
+              alert={alert}
             /> 
           </>
         :null
@@ -89,6 +118,7 @@ function App() {
         deleteTool={deleteTool}  
         edit={onEditMode}
         editItem={editItem}
+        testDate={testDate}
       />
 
       <Chart 

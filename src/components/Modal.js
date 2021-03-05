@@ -1,6 +1,7 @@
 import React from 'react'
+import Alert from './Alert'
 
-const Modal = ({ toggleModal, values, changeHandler, add }) => {
+const Modal = ({ toggleModal, values, changeHandler, add, alert }) => {
     return (
             <div className="modal-dialog modal-xl w-100 position-fixed">
                 <form className="modal-content" onSubmit={add} method="POST" action="/">
@@ -9,6 +10,15 @@ const Modal = ({ toggleModal, values, changeHandler, add }) => {
                         <button className="btn btn-secondary" onClick={() => toggleModal(false)}><i className="fas fa-times"></i></button>
                     </div>
                     <div className="modal-body w-100">
+                        {
+                            alert.show 
+                            ? <Alert 
+                                message={alert.message}
+                                type={alert.type}
+                            />
+                            :null
+                        }
+
                         <div className="row">
                             <div className="col-sm-4">
                                 <label htmlFor="date">Дата</label>
