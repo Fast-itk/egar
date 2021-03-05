@@ -10,7 +10,9 @@ const Chart = ({ data, open }) => {
     uniqTools.forEach((name) => {
         dataForLines.push({
             name: name,
-            data: data.filter(item => item.tool === name)
+            data: data.filter(item => item.tool === name).sort((a, b) => {
+                return new Date(a.date).getTime() - new Date(b.date).getTime()
+            })
         })
     })
 
